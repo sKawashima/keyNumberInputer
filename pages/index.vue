@@ -1,45 +1,75 @@
 <template lang='pug'>
 v-layout(column='', justify-center='', align-center='')
   v-flex(xs12='', sm8='', md6='')
-    v-card
-      v-card-title.headline Welcome to the Vuetify + Nuxt.js template
-      v-card-text
-        p
-          | Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.
-        p
-          | For more information on Vuetify, check out the
-          a(href='https://vuetifyjs.com', target='_blank') documentation
-          | .
-        p
-          | If you have questions, please join the official
-          a(href='https://chat.vuetifyjs.com/', target='_blank', title='chat') discord
-          | .
-        p
-          | Find a bug? Report it on the github
-          a(href='https://github.com/vuetifyjs/vuetify/issues', target='_blank', title='contribute') issue board
-          | .
-        p
-          | Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.
-        .text-xs-right
-          em
-            small — John Leider
-        hr.my-3
-        a(href='https://nuxtjs.org/', target='_blank') Nuxt Documentation
-        br
-        a(href='https://github.com/nuxt/nuxt.js', target='_blank') Nuxt GitHub
-      v-card-actions
-        v-spacer
-        v-btn(color='primary', flat='', nuxt='', to='/inspire') Continue
+    p.mx-3.text-xs-center now octave: {{octave}}
+    v-card.pa-3.ma-3
+      p.ma-0 {{tones}}
+    v-spacer
+    v-card.pa-3.ma-3
+      p.ma-0 {{toneNumbers}}
 </template>
 
 <script>
-// import Logo from '~/components/Logo.vue'
-// import VuetifyLogo from '~/components/VuetifyLogo.vue'
+if (process.browser) {
+  var Tone = require('tone')
+}
+
+var vm
+const keys = ['a', 'w', 's', 'e', 'd', 'f', 't', 'g', 'y', 'h', 'u', 'j', 'k', 'o', 'l']
+const frequencys = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D']
 
 export default {
-  // components: {
-  //   Logo,
-  //   VuetifyLogo
-  // }
+  data: () => {
+    return {
+      tones: [],
+      octave: 3,
+      toneNumbers: []
+    }
+  },
+  methods: {
+    addInput: (input) => {
+      console.log(input.key)
+      if (input.key === 'Backspace') {
+        vm.tones.pop()
+        return
+      } else if (input.key === 'x') {
+        vm.octave++
+        return
+      } else if (input.key === 'z') {
+        vm.octave--
+        return
+      }
+      let r = -1
+      keys.forEach((el, i) => {
+        if (el === input.key) {
+          r = i
+          return 0 // out forEach
+        }
+      })
+      if (r !== -1) { // toneKey
+        if (r >= 12) { vm.octave++ }
+        vm.tones.push(vm.keyboardToFrequency(r) + vm.octave)
+        if (r >= 12) { vm.octave-- }
+      }
+    },
+    keyboardToFrequency: (i) => {
+      return frequencys[i]
+    }
+  },
+  watch: {
+    tones: () => {
+      vm.toneNumbers = vm.tones.map((tone) => {
+        return (Tone.Frequency(tone).toMidi())
+      })
+    }
+  },
+  created () {
+    if (process.browser) {
+      console.log(Tone.Frequency('A3').toMidi())
+      window.addEventListener('keydown', this.addInput, true)
+    }
+    vm = this
+    // console.log(this)
+  }
 }
 </script>
