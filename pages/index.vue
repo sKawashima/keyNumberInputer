@@ -11,7 +11,7 @@ if (process.browser) {
   var Tone = require('tone')
 }
 
-var vm = this
+// var vm = this
 
 export default {
   data: () => {
@@ -20,17 +20,16 @@ export default {
     }
   },
   methods: {
-    addInput: (input) => {
-      console.log(input.key)
-      // vm.data.input += input.key
-      console.log(vm)
+    addInput: function (input) {
+      this.input += input.key
     }
   },
-  mounted () {
+  created () {
     if (process.browser) {
       console.log(Tone.Frequency('A3').toMidi())
-      window.addEventListener('keydown', this.addInput)
+      window.addEventListener('keydown', this.addInput, true)
     }
+    console.log(this)
   }
 }
 </script>
