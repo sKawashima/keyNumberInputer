@@ -35,11 +35,19 @@ v-layout(column='', justify-center='', align-center='')
 <script>
 // import Logo from '~/components/Logo.vue'
 // import VuetifyLogo from '~/components/VuetifyLogo.vue'
+if (process.browser) {
+  var Tone = require('tone')
+}
 
 export default {
   // components: {
   //   Logo,
   //   VuetifyLogo
   // }
+  created () {
+    if (process.browser) {
+      console.log(Tone.Frequency('A3').toMidi())
+    }
+  }
 }
 </script>
