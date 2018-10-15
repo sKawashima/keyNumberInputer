@@ -15,6 +15,7 @@ if (process.browser) {
 }
 
 var vm
+var synth
 const keys = ['a', 'w', 's', 'e', 'd', 'f', 't', 'g', 'y', 'h', 'u', 'j', 'k', 'o', 'l']
 const frequencys = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D']
 
@@ -22,7 +23,7 @@ export default {
   data: () => {
     return {
       tones: [],
-      octave: 3,
+      octave: 4,
       toneNumbers: []
     }
   },
@@ -31,6 +32,7 @@ export default {
       console.log(input.key)
       if (input.key === 'Backspace') {
         vm.tones.pop()
+        synth.triggerRelease()
         return
       } else if (input.key === 'x') {
         vm.octave++
@@ -49,7 +51,10 @@ export default {
       if (r !== -1) { // toneKey
         if (r >= 12) { vm.octave++ }
         vm.tones.push(vm.keyboardToFrequency(r) + vm.octave)
+        synth.triggerAttack(vm.keyboardToFrequency(r) + vm.octave)
         if (r >= 12) { vm.octave-- }
+      } else {
+        synth.triggerRelease()
       }
     },
     keyboardToFrequency: (i) => {
@@ -67,6 +72,8 @@ export default {
     if (process.browser) {
       console.log(Tone.Frequency('A3').toMidi())
       window.addEventListener('keydown', this.addInput, true)
+      synth = new Tone.AMSynth().toMaster()
+      synth.oscillator.type = 'sawtooth'
     }
     vm = this
     // console.log(this)
