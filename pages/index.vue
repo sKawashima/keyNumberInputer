@@ -1,7 +1,12 @@
 <template lang='pug'>
 v-layout(column='', justify-center='', align-center='')
   v-flex(xs12='', sm8='', md6='')
-    p {{tones}}
+    p.mx-3.text-xs-center now octave: {{octave}}
+    v-card.pa-3.ma-3
+      p.ma-0 {{tones}}
+    v-spacer
+    v-card.pa-3.ma-3
+      p.ma-0 {{toneNumbers}}
 </template>
 
 <script>
@@ -10,16 +15,23 @@ if (process.browser) {
 }
 
 var vm
+const keys = ['a', 'w', 's', 'e', 'd', 'f', 't', 'g', 'y', 'h', 'u', 'j', 'k', 'o', 'l']
+const frequencys = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D']
 
 export default {
   data: () => {
     return {
-      tones: []
+      tones: [],
+      octave: 3,
+      toneNumbers: []
     }
   },
   methods: {
     addInput: (input) => {
-      const keys = ['a', 'w', 's', 'e', 'd', 'f', 't', 'g', 'y', 'h', 'u', 'j', 'k', 'o', 'l']
+      console.log(input.key)
+      if (input.key === 'Backspace') {
+        vm.tones.pop()
+      }
       let r = -1
       keys.forEach((el, i) => {
         if (el === input.key) {
@@ -27,13 +39,21 @@ export default {
           return 0 // out forEach
         }
       })
-      if (r !== -1) {
-        vm.tones.push(vm.keyboardToFrequency(r))
+      if (r !== -1) { // toneKey
+        if (r >= 12) { vm.octave++ }
+        vm.tones.push(vm.keyboardToFrequency(r) + vm.octave)
+        if (r >= 12) { vm.octave-- }
       }
     },
     keyboardToFrequency: (i) => {
-      const frequencys = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D']
       return frequencys[i]
+    }
+  },
+  watch: {
+    tones: () => {
+      vm.toneNumbers = vm.tones.map((tone) => {
+        return (Tone.Frequency(tone).toMidi())
+      })
     }
   },
   created () {
@@ -42,7 +62,7 @@ export default {
       window.addEventListener('keydown', this.addInput, true)
     }
     vm = this
-    console.log(this)
+    // console.log(this)
   }
 }
 </script>
