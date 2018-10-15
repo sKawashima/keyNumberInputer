@@ -42,7 +42,8 @@ export default {
       drawer: false,
       fixed: false,
       items: [
-        { icon: 'keyboard', title: 'Keyboard Input', to: '/' }
+        { icon: 'keyboard', title: 'Keyboard Input', to: '/' },
+        { icon: '?', title: 'comming soon' }
         // { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' }
       ],
       miniVariant: false,
