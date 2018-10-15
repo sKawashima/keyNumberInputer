@@ -1,7 +1,7 @@
 <template lang='pug'>
 v-layout(column='', justify-center='', align-center='')
   v-flex(xs12='', sm8='', md6='')
-    p {{input}}
+    p {{tones}}
 </template>
 
 <script>
@@ -14,27 +14,26 @@ var vm
 export default {
   data: () => {
     return {
-      input: 'test'
+      tones: []
     }
   },
   methods: {
     addInput: (input) => {
-      vm.input += input.key
-      console.log(vm.keyboardToFrequency(input.key))
-    },
-    keyboardToFrequency: (input) => {
-      console.log('keyboardToFrequency')
-      const frequencys = ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C', 'D']
-      const keys = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l']
-      let r
+      const keys = ['a', 'w', 's', 'e', 'd', 'f', 't', 'g', 'y', 'h', 'u', 'j', 'k', 'o', 'l']
+      let r = -1
       keys.forEach((el, i) => {
-        if (el === input) {
-          console.log(frequencys[i])
-          r = frequencys[i]
+        if (el === input.key) {
+          r = i
           return 0 // out forEach
         }
       })
-      return r
+      if (r !== -1) {
+        vm.tones.push(vm.keyboardToFrequency(r))
+      }
+    },
+    keyboardToFrequency: (i) => {
+      const frequencys = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D']
+      return frequencys[i]
     }
   },
   created () {
