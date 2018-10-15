@@ -1,7 +1,7 @@
 {
   "name": "keyNumberInputer",
   "version": "1.0.0",
-  "description": "My slick Nuxt.js project",
+  "description": "Midi Key Number Inputer by sKawashima.",
   "author": "sKawashima",
   "private": true,
   "scripts": {
