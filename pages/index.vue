@@ -1,9 +1,6 @@
 <template lang='pug'>
 v-layout(column='', justify-center='', align-center='')
   v-flex(xs12='', sm8='', md6='')
-    .text-xs-center
-      logo
-      vuetify-logo
     v-card
       v-card-title.headline Welcome to the Vuetify + Nuxt.js template
       v-card-text
@@ -36,13 +33,13 @@ v-layout(column='', justify-center='', align-center='')
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
+// import Logo from '~/components/Logo.vue'
+// import VuetifyLogo from '~/components/VuetifyLogo.vue'
 
 export default {
-  components: {
-    Logo,
-    VuetifyLogo
-  }
+  // components: {
+  //   Logo,
+  //   VuetifyLogo
+  // }
 }
 </script>
