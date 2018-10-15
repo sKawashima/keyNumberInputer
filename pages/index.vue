@@ -31,6 +31,13 @@ export default {
       console.log(input.key)
       if (input.key === 'Backspace') {
         vm.tones.pop()
+        return
+      } else if (input.key === 'x') {
+        vm.octave++
+        return
+      } else if (input.key === 'z') {
+        vm.octave--
+        return
       }
       let r = -1
       keys.forEach((el, i) => {
