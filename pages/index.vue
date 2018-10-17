@@ -1,5 +1,6 @@
 <template lang='pug'>
-v-layout(column='', justify-center='', align-center='')
+v-layout(column, justify-center, align-center)
+  h2 Keyboard Input
   v-flex(xs12='', sm8='', md6='')
     p.mx-3.text-xs-center now octave: {{octave}}
     v-card.pa-3.ma-3

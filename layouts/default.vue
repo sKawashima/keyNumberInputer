@@ -43,8 +43,7 @@ export default {
       fixed: false,
       items: [
         { icon: 'keyboard', title: 'Keyboard Input', to: '/' },
-        { icon: '?', title: 'comming soon' }
-        // { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' }
+        { icon: 'cloud_upload', title: 'SMF Input', to: '/fileInput' }
       ],
       miniVariant: false,
       right: true,
